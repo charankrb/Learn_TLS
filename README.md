@@ -39,3 +39,31 @@ To create the required certificates for the server:
 
    [alt_names]
    DNS.1 = localhost
+
+Generate the private key:
+```
+openssl genrsa -out server.key 2048
+```
+Generate the self-signed certificate:
+```
+openssl req -x509 -new -nodes -key server.key -sha256 -days 365 -out server.crt -config openssl.cnf
+```
+RUN without building 
+```
+go run main.go server.go client.go
+```
+Sample output 
+```                              
+Step 1: Server loaded certificate and private key.
+Step 2: Server configured TLS settings.
+Step 3: Server is listening on port 8443...
+Step 1: Loaded server's certificate into the trusted root CA pool.
+Step 2: Configured TLS settings with custom root CA pool.
+Step 4: Server accepted a client connection.
+Client connected: [::1]:60587
+Step 3: Client successfully connected to the server.
+Step 4: Sending message to the server: Hello, TLS Server!
+Step 4: Client successfully sent the message.
+Step 6: Server received: Hello, TLS Server!
+Step 8: Server echoed the data back to the client.
+Step 5: Client received server response: Hello, TLS Server!
